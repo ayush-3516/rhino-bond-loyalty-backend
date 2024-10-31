@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth.controller');
+const authMiddleware = require('../middleware/auth.middleware');
 
+// User registration route
 router.post('/register', authController.register);
+
+// User login route
 router.post('/login', authController.login);
-router.post('/verify-otp', authController.verifyOtp);
-router.post('/refrest-token', authController.refreshToken);
-router.post('/logout', authController.logout);
+
+// Token validation route
+router.post('/validateToken', authMiddleware.validateToken, authController.validateToken);
 
 module.exports = router;
