@@ -7,6 +7,7 @@ const getSupportTickets = async (req, res) => {
     const tickets = await prisma.supportTicket.findMany();
     res.send(tickets);
   } catch (error) {
+    console.error('Error retrieving support tickets:', error);
     res.status(500).send('Error retrieving support tickets');
   }
 };
@@ -19,6 +20,7 @@ const createSupportTicket = async (req, res) => {
     });
     res.send('Support ticket created successfully');
   } catch (error) {
+    console.error('Error creating support ticket:', error);
     res.status(500).send('Error creating support ticket');
   }
 };

@@ -10,6 +10,7 @@ const generateQR = async (req, res) => {
     });
     res.send('QR code generated successfully');
   } catch (error) {
+    console.error('Error generating QR code:', error);
     res.status(500).send('Error generating QR code');
   }
 };
@@ -48,6 +49,7 @@ const scanQR = async (req, res) => {
 
     res.send('QR code scanned successfully and points added');
   } catch (error) {
+    console.error('Error scanning QR code:', error);
     res.status(500).send('Error scanning QR code');
   }
 };

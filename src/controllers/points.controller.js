@@ -10,6 +10,7 @@ const getPoints = async (req, res) => {
     });
     res.send(points);
   } catch (error) {
+    console.error('Error retrieving points:', error);
     res.status(500).send('Error retrieving points');
   }
 };
@@ -32,6 +33,7 @@ const addPoints = async (req, res) => {
     }
     res.send('Points added successfully');
   } catch (error) {
+    console.error('Error adding points:', error);
     res.status(500).send('Error adding points');
   }
 };

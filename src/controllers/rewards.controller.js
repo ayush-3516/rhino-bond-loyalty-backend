@@ -7,6 +7,7 @@ const getRewards = async (req, res) => {
     const rewards = await prisma.reward.findMany();
     res.send(rewards);
   } catch (error) {
+    console.error('Error retrieving rewards:', error);
     res.status(500).send('Error retrieving rewards');
   }
 };
@@ -19,6 +20,7 @@ const addReward = async (req, res) => {
     });
     res.send('Reward added successfully');
   } catch (error) {
+    console.error('Error adding reward:', error);
     res.status(500).send('Error adding reward');
   }
 };

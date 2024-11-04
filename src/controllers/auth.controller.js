@@ -15,6 +15,7 @@ const register = async (req, res) => {
     });
     res.status(201).send('User registered successfully');
   } catch (error) {
+    console.error('Error registering user:', error);
     res.status(500).send('Error registering user');
   }
 };
@@ -29,6 +30,7 @@ const login = async (req, res) => {
     const token = jwt.sign({ userId: user.id }, jwtSecret, { expiresIn: '1h' });
     res.send({ token });
   } catch (error) {
+    console.error('Error logging in:', error);
     res.status(500).send('Error logging in');
   }
 };
@@ -39,6 +41,7 @@ const verifyOtp = async (req, res) => {
     // Implement OTP verification logic here
     res.send('OTP verified successfully');
   } catch (error) {
+    console.error('Error verifying OTP:', error);
     res.status(500).send('Error verifying OTP');
   }
 };
@@ -49,6 +52,7 @@ const refreshToken = async (req, res) => {
     // Implement refresh token logic here
     res.send('Token refreshed successfully');
   } catch (error) {
+    console.error('Error refreshing token:', error);
     res.status(500).send('Error refreshing token');
   }
 };
@@ -58,6 +62,7 @@ const logout = async (req, res) => {
     // Implement logout logic here
     res.send('User logged out successfully');
   } catch (error) {
+    console.error('Error logging out:', error);
     res.status(500).send('Error logging out');
   }
 };

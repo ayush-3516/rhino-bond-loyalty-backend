@@ -10,6 +10,7 @@ const getUser = async (req, res) => {
     });
     res.send(user);
   } catch (error) {
+    console.error('Error retrieving user:', error);
     res.status(500).send('Error retrieving user');
   }
 };
@@ -23,6 +24,7 @@ const updateUser = async (req, res) => {
     });
     res.send('User information updated successfully');
   } catch (error) {
+    console.error('Error updating user information:', error);
     res.status(500).send('Error updating user information');
   }
 };
@@ -35,6 +37,7 @@ const registerUser = async (req, res) => {
     });
     res.send('User registered successfully');
   } catch (error) {
+    console.error('Error registering user:', error);
     res.status(500).send('Error registering user');
   }
 };

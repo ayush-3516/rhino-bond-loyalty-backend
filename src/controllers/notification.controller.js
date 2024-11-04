@@ -10,6 +10,7 @@ const getNotifications = async (req, res) => {
     });
     res.send(notifications);
   } catch (error) {
+    console.error('Error retrieving notifications:', error);
     res.status(500).send('Error retrieving notifications');
   }
 };
@@ -23,6 +24,7 @@ const markAsRead = async (req, res) => {
     });
     res.send('Notification marked as read');
   } catch (error) {
+    console.error('Error marking notification as read:', error);
     res.status(500).send('Error marking notification as read');
   }
 };

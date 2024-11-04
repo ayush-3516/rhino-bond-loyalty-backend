@@ -7,6 +7,7 @@ const getProducts = async (req, res) => {
     const products = await prisma.product.findMany();
     res.send(products);
   } catch (error) {
+    console.error('Error retrieving products:', error);
     res.status(500).send('Error retrieving products');
   }
 };
@@ -19,6 +20,7 @@ const addProduct = async (req, res) => {
     });
     res.send('Product added successfully');
   } catch (error) {
+    console.error('Error adding product:', error);
     res.status(500).send('Error adding product');
   }
 };
