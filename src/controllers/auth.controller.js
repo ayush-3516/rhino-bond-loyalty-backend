@@ -1,58 +1,65 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
+const saltRounds = 10;
+const jwtSecret = 'your-secret-key';
 
 const register = async (req, res) => {
-  const { username, password, email } = req.body;
-  const user = await prisma.user.create({
-    data: { username, password, email },
-  });
-  res.send('User registered successfully');
+  const { email, password, phoneNumber, otp } = req.body;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  try {
+    const user = await prisma.user.create({
+      data: { email, password: hashedPassword, phoneNumber, otp },
+    });
+    res.status(201).send('User registered successfully');
+  } catch (error) {
+    res.status(500).send('Error registering user');
+  }
 };
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
-  const user = await prisma.user.findUnique({
-    where: { username_password: { username, password } },
-  });
-  if (user) {
-    res.send('User logged in successfully');
-  } else {
-    res.status(401).send('Invalid credentials');
+  const { email, password } = req.body;
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) return res.status(404).send('User not found');
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) return res.status(401).send('Invalid password');
+    const token = jwt.sign({ userId: user.id }, jwtSecret, { expiresIn: '1h' });
+    res.send({ token });
+  } catch (error) {
+    res.status(500).send('Error logging in');
   }
 };
 
 const verifyOtp = async (req, res) => {
-  const { username, otp } = req.body;
-  const user = await prisma.user.findUnique({
-    where: { username_otp: { username, otp } },
-  });
-  if (user) {
+  const { userId, otp } = req.body;
+  try {
+    // Implement OTP verification logic here
     res.send('OTP verified successfully');
-  } else {
-    res.status(401).send('Invalid OTP');
+  } catch (error) {
+    res.status(500).send('Error verifying OTP');
   }
 };
 
 const refreshToken = async (req, res) => {
-  const { username, refreshToken } = req.body;
-  const user = await prisma.user.findUnique({
-    where: { username_refreshToken: { username, refreshToken } },
-  });
-  if (user) {
+  const { refreshToken } = req.body;
+  try {
+    // Implement refresh token logic here
     res.send('Token refreshed successfully');
-  } else {
-    res.status(401).send('Invalid refresh token');
+  } catch (error) {
+    res.status(500).send('Error refreshing token');
   }
 };
 
 const logout = async (req, res) => {
-  const { username } = req.body;
-  await prisma.user.update({
-    where: { username },
-    data: { refreshToken: null },
-  });
-  res.send('User logged out successfully');
+  try {
+    // Implement logout logic here
+    res.send('User logged out successfully');
+  } catch (error) {
+    res.status(500).send('Error logging out');
+  }
 };
 
 export {
