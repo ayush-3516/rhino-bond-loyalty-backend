@@ -14,7 +14,7 @@ import cors from "cors";
 const prisma = new PrismaClient();
 const app = express();
 
-const port = 3001;
+const port = 3000;
 
 // Custom Middleware
 const customMiddleware = (req, res, next) => {
